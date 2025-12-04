@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --bg-base: #f8f2e8;
+  --bg-hero: #fffaf3;
+  --surface: #ffffff;
+  --text-main: #271812;
+  --text-muted: #6f5b4b;
+  --accent-primary: #c9843b;
+  --accent-strong: #a86424;
+  --accent-sage: #4e7b61;
+  --outline-soft: rgba(70, 51, 36, 0.1);
+  --shadow-soft: 0 18px 60px rgba(77, 51, 32, 0.14);
+  --font-scale: 1;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg-base: #15100d;
+  --bg-hero: #1f1813;
+  --surface: #201711;
+  --text-main: #f9efe2;
+  --text-muted: #c7b7a9;
+  --accent-primary: #f0b778;
+  --accent-strong: #e79a48;
+  --accent-sage: #8fc0a7;
+  --outline-soft: rgba(255, 255, 255, 0.08);
+  --shadow-soft: 0 25px 60px rgba(0, 0, 0, 0.45);
+}
+
+html {
+  font-size: calc(16px * var(--font-scale));
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--bg-base);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.9), transparent 60%), var(--bg-base);
+  color: var(--text-main);
+  font-feature-settings: 'liga' 1, 'calt' 1;
+  letter-spacing: -0.01em;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 20% 20%, rgba(255, 204, 166, 0.3), transparent 40%),
+    radial-gradient(circle at 80% 0%, rgba(152, 203, 195, 0.25), transparent 35%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+::selection {
+  background-color: rgba(201, 132, 59, 0.25);
+}
+
+@layer base {
+  * {
+    @apply border-outline-subtle;
+  }
+
+  body {
+    @apply text-base leading-relaxed antialiased;
+  }
+
+  textarea {
+    resize: none;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply bg-white/80 backdrop-blur-xl shadow-panel border border-white/40 rounded-[24px];
+  }
+
+  .pill {
+    @apply rounded-pill px-4 py-1 text-sm font-semibold tracking-wide uppercase;
+  }
+
+  .brand-gradient {
+    background: linear-gradient(135deg, #f6e7d6 0%, #fef8ee 40%, #f9eddc 100%);
+  }
+}
