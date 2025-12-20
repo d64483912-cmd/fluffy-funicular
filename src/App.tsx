@@ -23,10 +23,12 @@ export default function App() {
     if (!showSplash) return
     const timer = window.setTimeout(() => {
       hideSplash()
-      navigate('/welcome')
+      if (location.pathname === '/' || location.pathname === '/splash') {
+        navigate('/welcome')
+      }
     }, 2400)
     return () => window.clearTimeout(timer)
-  }, [showSplash, hideSplash, navigate])
+  }, [showSplash, hideSplash, navigate, location.pathname])
 
   return (
     <div className="relative flex min-h-screen flex-col items-center bg-gradient-to-b from-brand-ivory via-surface-base to-brand-linen pb-32 pt-8">
