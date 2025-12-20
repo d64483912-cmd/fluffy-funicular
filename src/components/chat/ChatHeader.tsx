@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, MoreHorizontal, PenLine, Pin, Share2, Trash2 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import type { ChatSession } from '@/types/chat'
-import { useUIStore } from '@/store/uiStore'
 import { useChatStore } from '@/store/chatStore'
 import { shortDate } from '@/lib/utils'
 
@@ -11,7 +11,7 @@ interface ChatHeaderProps {
 }
 
 export function ChatHeader({ session }: ChatHeaderProps) {
-  const setActiveTab = useUIStore((state) => state.setActiveTab)
+  const navigate = useNavigate()
   const renameSession = useChatStore((state) => state.renameSession)
   const deleteSession = useChatStore((state) => state.deleteSession)
   const togglePin = useChatStore((state) => state.togglePin)
@@ -43,7 +43,7 @@ export function ChatHeader({ session }: ChatHeaderProps) {
     try {
       await navigator.clipboard.writeText(joined)
       alert('Conversation copied to clipboard')
-    } catch (error) {
+    } catch {
       alert('Unable to copy conversation on this device.')
     }
     setMenuOpen(false)
@@ -52,6 +52,7 @@ export function ChatHeader({ session }: ChatHeaderProps) {
   const handleDelete = () => {
     if (window.confirm('Delete this conversation?')) {
       deleteSession(session.id)
+      navigate('/history')
     }
     setMenuOpen(false)
   }
@@ -61,7 +62,7 @@ export function ChatHeader({ session }: ChatHeaderProps) {
       <button
         type="button"
         className="inline-flex items-center gap-2 rounded-full border border-white/60 px-3 py-1.5 text-sm font-semibold text-brand-dusk"
-        onClick={() => setActiveTab('history')}
+        onClick={() => navigate('/history')}
       >
         <ArrowLeft size={16} />
         <span className="hidden sm:inline">History</span>

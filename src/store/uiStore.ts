@@ -25,7 +25,7 @@ const defaultSettings: SettingsState = {
 
 export const useUIStore = create<UIStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       showSplash: true,
       activeTab: 'chat',
       settings: defaultSettings,

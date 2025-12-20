@@ -1,23 +1,23 @@
 import type { ComponentType } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Clock3, MessageCircleMore, Pin, Trash2, PencilLine } from 'lucide-react'
 import { useChatStore } from '@/store/chatStore'
-import { useUIStore } from '@/store/uiStore'
 import { formatSessionTimestamp } from '@/lib/utils'
 
 export function HistoryPanel() {
+  const navigate = useNavigate()
   const sessions = useChatStore((state) => state.sessions)
   const selectSession = useChatStore((state) => state.selectSession)
   const deleteSession = useChatStore((state) => state.deleteSession)
   const renameSession = useChatStore((state) => state.renameSession)
   const togglePin = useChatStore((state) => state.togglePin)
-  const setActiveTab = useUIStore((state) => state.setActiveTab)
 
   const pinned = sessions.filter((session) => session.pinned)
   const recent = sessions.filter((session) => !session.pinned)
 
   const openSession = (id: string) => {
     selectSession(id)
-    setActiveTab('chat')
+    navigate(`/chat/${id}`)
   }
 
   const handleRename = (id: string, current: string) => {

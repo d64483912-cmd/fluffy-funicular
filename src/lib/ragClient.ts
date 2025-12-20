@@ -50,10 +50,10 @@ async function callNelsonApi({
   const reader = response.body.getReader()
   const decoder = new TextDecoder()
 
-  const parser = createParser((event) => {
-    if (event.type !== 'event') return
-    try {
-      const payload = JSON.parse(event.data) as StreamPayload
+  const parser = createParser({
+    onEvent: (event: any) => {
+      try {
+        const payload = JSON.parse(event.data) as StreamPayload
       switch (payload.type) {
         case 'token':
           if (payload.token) onToken(payload.token)
@@ -75,6 +75,7 @@ async function callNelsonApi({
     } catch (error) {
       console.error('Unable to parse stream payload', error)
     }
+    },
   })
 
   while (true) {
@@ -111,7 +112,7 @@ export const ragClient = {
     try {
       const res = await fetch(`${API_BASE}/health`)
       return res.ok
-    } catch (error) {
+    } catch {
       return false
     }
   },

@@ -18,6 +18,7 @@ Nelson-GPT is a Perplexity-inspired conversational experience tailored to pediat
 | Layer        | Tooling |
 | ------------ | ------- |
 | UI           | React 19 + Vite + TypeScript + TailwindCSS + Framer Motion |
+| Routing      | React Router v6 |
 | State        | Zustand (chat + UI stores) |
 | Markdown     | `react-markdown` with remark/rehype plugins (GFM, sanitize, slug, autolink) |
 | RAG Client   | Custom fetch + `eventsource-parser` stream management |
@@ -49,6 +50,24 @@ VITE_API_URL=https://your-edge-worker.example.com
 ```
 
 The RAG client automatically falls back to a mock Nelson response whenever the endpoint is unreachable, enabling confident UI work offline.
+
+## Routing & Navigation
+
+The app uses React Router v6 with the following routes:
+
+- `/` - Redirects to `/splash`
+- `/splash` - Animated splash screen with typewriter effect (auto-redirects to `/welcome` after 2.4s)
+- `/welcome` - Hero welcome screen with HeroComposer and QuickTools
+- `/chat/:id` - Active chat session view with message timeline and footer dock
+- `/history` - Chat history with pinned and recent conversations
+- `/settings` - Settings panel for theme, font scale, AI style, and disclaimer toggles
+- `/profile` - User profile panel (placeholder for future implementation)
+
+Navigation is handled via:
+- Footer tab bar (fixed at bottom) for switching between main sections
+- Programmatic navigation when creating new chats (from HeroComposer)
+- Back button in chat header to return to history
+- History panel cards to open existing conversations
 
 ## Project Structure
 

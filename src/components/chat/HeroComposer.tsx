@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Send } from 'lucide-react'
 import { useChatStore } from '@/store/chatStore'
 import { useAutosizeTextArea } from '@/hooks/useAutosizeTextArea'
@@ -7,15 +8,20 @@ import { ModeToggle } from '@/components/shared/ModeToggle'
 export function HeroComposer() {
   const [value, setValue] = useState('')
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const navigate = useNavigate()
   const sendMessage = useChatStore((state) => state.sendMessage)
   const isStreaming = useChatStore((state) => state.isStreaming)
 
   useAutosizeTextArea(textareaRef, value)
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!value.trim()) return
-    void sendMessage(value)
+    await sendMessage(value)
     setValue('')
+    const sessionId = useChatStore.getState().activeSessionId
+    if (sessionId) {
+      navigate(`/chat/${sessionId}`)
+    }
   }
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {

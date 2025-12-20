@@ -38,7 +38,7 @@ export function ModeToggle({ layout = 'row' }: ModeToggleProps) {
             <Icon size={16} />
             {option.label}
           </button>
-        )}
+        )
       })}
     </div>
   )
