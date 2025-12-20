@@ -16,12 +16,12 @@ const schema = {
 
 export function MarkdownContent({ content }: { content: string }) {
   return (
-    <ReactMarkdown
-      className="prose prose-stone max-w-none text-base leading-relaxed prose-headings:text-brand-bark prose-strong:text-brand-bark prose-code:bg-brand-sand/60 prose-code:text-brand-bark"
-      remarkPlugins={[remarkGfm]}
-      rehypePlugins={[rehypeRaw, [rehypeSanitize, schema], rehypeSlug, rehypeAutolinkHeadings]}
-      components={{
-        code({ node, inline, className, children, ...props }) {
+    <div className="prose prose-stone max-w-none text-base leading-relaxed prose-headings:text-brand-bark prose-strong:text-brand-bark prose-code:bg-brand-sand/60 prose-code:text-brand-bark">
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        rehypePlugins={[rehypeRaw, [rehypeSanitize, schema], rehypeSlug, rehypeAutolinkHeadings]}
+        components={{
+          code({ inline, children, ...props }: any) {
           const codeText = String(children).trim()
           if (inline) {
             return (
@@ -31,7 +31,7 @@ export function MarkdownContent({ content }: { content: string }) {
             )
           }
           return (
-            <pre className="rounded-2xl bg-brand-charcoal/90 p-4 text-brand-ivory shadow-inner" {...props}>
+            <pre className="rounded-2xl bg-brand-charcoal/90 p-4 text-brand-ivory shadow-inner">
               <code>{codeText}</code>
             </pre>
           )
@@ -45,9 +45,10 @@ export function MarkdownContent({ content }: { content: string }) {
         td({ children }) {
           return <td className="px-4 py-2 text-brand-bark/90">{children}</td>
         },
-      }}
-    >
-      {content || '…'}
-    </ReactMarkdown>
+        }}
+      >
+        {content || '…'}
+      </ReactMarkdown>
+    </div>
   )
 }

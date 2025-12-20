@@ -36,7 +36,8 @@ const FOLLOW_UPS = [
   'When can I resume routine vaccines after hospitalization?'
 ]
 
-export async function mockNelsonResponse(prompt: string) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function mockNelsonResponse(_prompt: string) {
   const tokens = MOCK_PARAGRAPHS.join('\n\n').split(' ')
   return {
     tokens,

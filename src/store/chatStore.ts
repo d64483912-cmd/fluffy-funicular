@@ -119,12 +119,12 @@ export const useChatStore = create<ChatStore>()(
           targetSession = get().sessions.find((session) => session.id === sessionId)
         }
 
-        const history = [
+        const history: Array<{ role: 'user' | 'assistant'; content: string }> = [
           ...((targetSession?.messages ?? []).slice(-6).map((message) => ({
-            role: message.role,
+            role: message.role as 'user' | 'assistant',
             content: message.content,
           })) ?? []),
-          { role: 'user', content: prompt },
+          { role: 'user' as const, content: prompt },
         ]
 
         const userMessage: Message = {

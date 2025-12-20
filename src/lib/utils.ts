@@ -18,7 +18,7 @@ export function deriveTitleFromPrompt(prompt: string) {
 export function formatSessionTimestamp(iso: string) {
   try {
     return formatDistanceToNow(new Date(iso), { addSuffix: true })
-  } catch (error) {
+  } catch {
     return ''
   }
 }
@@ -26,7 +26,7 @@ export function formatSessionTimestamp(iso: string) {
 export function shortDate(iso: string) {
   try {
     return format(new Date(iso), 'MMM d, HH:mm')
-  } catch (error) {
+  } catch {
     return iso
   }
 }

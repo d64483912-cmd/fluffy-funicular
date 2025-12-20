@@ -18,7 +18,7 @@ export async function readCachedHistory(): Promise<ChatSession[]> {
     const response = await fetch(HISTORY_ENDPOINT)
     if (!response.ok) return []
     return (await response.json()) as ChatSession[]
-  } catch (error) {
+  } catch {
     return []
   }
 }
