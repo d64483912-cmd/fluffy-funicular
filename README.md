@@ -30,7 +30,10 @@ Nelson-GPT is a Perplexity-inspired conversational experience tailored to pediat
 # Install dependencies
 npm install
 
-# Start Vite dev server with PWA dev SW
+# Terminal A: start backend API (SSE streaming)
+npm run dev:server
+
+# Terminal B: start Vite dev server with PWA dev SW
 npm run dev
 
 # Type-check + build optimized bundle
@@ -42,13 +45,61 @@ npm run preview
 
 ### Environment Variables
 
-Create a `.env` file (or export vars) to point at your backend orchestrator:
+Copy `.env.example` to `.env` and fill in values:
 
 ```bash
-VITE_API_URL=https://your-edge-worker.example.com
+cp .env.example .env
 ```
 
-The RAG client automatically falls back to a mock Nelson response whenever the endpoint is unreachable, enabling confident UI work offline.
+#### Frontend
+
+```bash
+# Vite will call `${VITE_API_URL}/rag` (or `${VITE_API_URL}/health`)
+VITE_API_URL=http://localhost:3001/api
+```
+
+#### Backend
+
+The Express backend streams SSE-compatible JSON payloads to match the frontend parser.
+
+Required:
+
+```bash
+SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=...
+OPENAI_API_KEY=...
+MISTRAL_API_KEY=...
+```
+
+Optional tuning:
+
+```bash
+MISTRAL_MODEL=mistral-large-latest
+RAG_TOP_K=5
+RAG_MAX_CONTEXT_CHARS=12000
+RAG_HISTORY_TURNS=3
+```
+
+The client automatically falls back to a mock Nelson response whenever the endpoint is unreachable, enabling confident UI work offline.
+
+## Supabase + pgvector Setup
+
+1. Create a Supabase project.
+2. In the Supabase SQL editor (or via Supabase CLI), run the migration:
+
+   - `supabase/migrations/0001_nelson_rag.sql`
+
+   This creates:
+   - `nelson_textbook_chunks` (pgvector)
+   - `chat_history`
+   - `match_nelson_textbook_chunks` RPC function
+   - basic RLS policies
+
+3. Ingest textbook chunks (CSV with a `content` column; other columns are optional):
+
+```bash
+npm run ingest:nelson -- --csv path/to/nelson_chunks.csv
+```
 
 ## Project Structure
 
